@@ -1,0 +1,308 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Shift - Perfect Your Shot</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <!-- Navigation -->
+  <nav class="navbar">
+    <div class="nav-container">
+      <div class="nav-logo">
+        <span class="logo-emoji">⚡</span>
+        <span class="logo-text">Shift</span>
+      </div>
+      <ul class="nav-menu">
+        <li><a href="#" class="nav-link active">Analyzer</a></li>
+        <li><a href="#tips" class="nav-link">Tips</a></li>
+        <li><a href="#" class="nav-link">History</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <div class="main-container">
+    <!-- Hero Section -->
+    <section class="hero">
+    <div class="hero-content">
+      <h1>Perfect Your Shot</h1>
+      <h2>Smart Photo Angle Advisor</h2>
+      <p>Powered by AI to elevate your photography skills</p>
+    </div>
+  </section>
+
+  <!-- INTRO SECTION -->
+  <section class="intro">
+    <div class="container">
+      <h3>Welcome to the Smart Photo Angle Advisor!</h3>
+      <p>Upload your image below, and let our advanced AI guide you in capturing your perfect shot. Based on computer vision and machine learning, our system will:</p>
+      <ul class="intro-list">
+        <li>Analyze your photo's angle, composition, and lighting</li>
+        <li>Provide real-time suggestions on how to improve your shot</li>
+        <li>Show you a personalized "Best Angle" for your retake</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- UPLOAD SECTION -->
+  <section class="upload-section">
+    <div class="container">
+      <div class="upload-box" id="uploadBox">
+        <input id="photoInput" type="file" accept="image/*" />
+        <div class="upload-content">
+          <p class="upload-icon">📤</p>
+          <p class="upload-text">Drag and drop your photo here, or click to select</p>
+          <p class="upload-hint">JPG, PNG, WebP - up to 10MB</p>
+        </div>
+      </div>
+      <button id="analyzeBtn" class="btn btn-primary">Start Improving Your Shot</button>
+      <div id="loadingSpinner" class="spinner" style="display:none;"></div>
+    </div>
+  </section>
+
+  <!-- RESULTS SECTION -->
+  <section id="resultsSection" class="results-section" style="display:none;">
+    <div class="container">
+      <h2>Your Analysis Results</h2>
+      
+      <!-- Image Comparison -->
+      <div class="image-comparison">
+        <div class="image-column">
+          <h3>Original</h3>
+          <img id="originalImg" src="" alt="original" />
+        </div>
+        <div class="image-column">
+          <h3>With Suggestions Overlay</h3>
+          <img id="overlayImg" src="" alt="overlay with suggestions" />
+        </div>
+      </div>
+
+      <!-- Metrics Dashboard -->
+      <div class="metrics-dashboard">
+        <div class="metric-card">
+          <div class="metric-header">
+            <span class="metric-icon">📐</span>
+            <span class="metric-title">Angle</span>
+          </div>
+          <div class="metric-bar-container">
+            <div id="angleBar" class="metric-bar"></div>
+          </div>
+          <p id="angleValue" class="metric-value">0°</p>
+        </div>
+
+        <div class="metric-card">
+          <div class="metric-header">
+            <span class="metric-icon">💡</span>
+            <span class="metric-title">Lighting</span>
+          </div>
+          <div class="metric-bar-container">
+            <div id="lightingBar" class="metric-bar"></div>
+          </div>
+          <p id="lightingValue" class="metric-value">0%</p>
+        </div>
+
+        <div class="metric-card">
+          <div class="metric-header">
+            <span class="metric-icon">🔍</span>
+            <span class="metric-title">Focus</span>
+          </div>
+          <div class="metric-bar-container">
+            <div id="focusBar" class="metric-bar"></div>
+          </div>
+          <p id="focusValue" class="metric-value">0%</p>
+        </div>
+
+        <div class="metric-card">
+          <div class="metric-header">
+            <span class="metric-icon">🌈</span>
+            <span class="metric-title">Vibrancy</span>
+          </div>
+          <div class="metric-bar-container">
+            <div id="vibrancyBar" class="metric-bar"></div>
+          </div>
+          <p id="vibrancyValue" class="metric-value">0%</p>
+        </div>
+
+        <div class="metric-card">
+          <div class="metric-header">
+            <span class="metric-icon">🎨</span>
+            <span class="metric-title">Composition</span>
+          </div>
+          <div class="metric-bar-container">
+            <div id="compositionBar" class="metric-bar"></div>
+          </div>
+          <p id="compositionValue" class="metric-value">0%</p>
+        </div>
+
+        <div class="metric-card">
+          <div class="metric-header">
+            <span class="metric-icon">👁️</span>
+            <span class="metric-title">Eye Focus</span>
+          </div>
+          <div class="metric-bar-container">
+            <div id="eyeBar" class="metric-bar"></div>
+          </div>
+          <p id="eyeValue" class="metric-value">N/A</p>
+        </div>
+      </div>
+
+      <!-- Suggestions -->
+      <div class="suggestions-container">
+        <h3>💡 Smart Suggestions</h3>
+        <ul id="suggestionsList" class="suggestions-list"></ul>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="action-buttons">
+        <button id="downloadOverlay" class="btn btn-secondary">📥 Download Annotated Image</button>
+        <button id="retryBtn" class="btn btn-secondary">🔄 Upload Another Photo</button>
+        <button id="liveCameraBtn" class="btn btn-secondary">📹 Try Live Camera Mode</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW IT WORKS SECTION -->
+  <section class="how-it-works">
+    <div class="container">
+      <h2>How It Works</h2>
+      <div class="steps-grid">
+        <div class="step">
+          <div class="step-number">1</div>
+          <h4>Upload Your Image</h4>
+          <p>Drag and drop or click to upload your photo. We'll analyze its composition, subject, and angles automatically.</p>
+        </div>
+        <div class="step">
+          <div class="step-number">2</div>
+          <h4>Get Instant Feedback</h4>
+          <p>Our system processes your photo and generates suggestions including optimal camera angle, positioning, and lighting tips.</p>
+        </div>
+        <div class="step">
+          <div class="step-number">3</div>
+          <h4>See the Best Angle</h4>
+          <p>Visual overlays show the rule of thirds, golden ratio, and suggested subject position for your retake.</p>
+        </div>
+        <div class="step">
+          <div class="step-number">4</div>
+          <h4>Retake & Improve</h4>
+          <p>Use the guidance to adjust your angle, lighting, or framing, then upload again to compare results.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FEATURES SECTION -->
+  <section class="features">
+    <div class="container">
+      <h2>Key Features</h2>
+      <div class="features-grid">
+        <div class="feature-card">
+          <h4>✨ Personalized Advice</h4>
+          <p>Our system learns your style and offers custom recommendations based on your preferences.</p>
+        </div>
+        <div class="feature-card">
+          <h4>🎯 Scene-Specific Suggestions</h4>
+          <p>Whether it's portrait, landscape, or product photography, we provide tailored tips for each type.</p>
+        </div>
+        <div class="feature-card">
+          <h4>😊 Emotion-Based Tips</h4>
+          <p>Capture the perfect mood by adjusting your angle to highlight emotion—powerful, confident, or intimate.</p>
+        </div>
+        <div class="feature-card">
+          <h4>📐 Golden Ratio & Rule of Thirds</h4>
+          <p>Visual overlays guide you to optimal composition based on proven photographic principles.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TESTIMONIALS SECTION -->
+  <section class="testimonials">
+    <div class="container">
+      <h2>What Photographers Say</h2>
+      <div class="testimonials-grid">
+        <div class="testimonial-card">
+          <p class="testimonial-text">"This tool helped me take my photography to the next level. I got the perfect angle for my food shots!"</p>
+          <p class="testimonial-author">— Jane Doe, Food Blogger</p>
+        </div>
+        <div class="testimonial-card">
+          <p class="testimonial-text">"The angle suggestions are spot-on. I've improved my portrait photography significantly."</p>
+          <p class="testimonial-author">— Alex Smith, Portrait Photographer</p>
+        </div>
+        <div class="testimonial-card">
+          <p class="testimonial-text">"Finally, a tool that actually helps me understand composition. Highly recommended!"</p>
+          <p class="testimonial-author">— Maria Garcia, Photography Enthusiast</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ SECTION -->
+  <section class="faq">
+    <div class="container">
+      <h2>How Does It Work Behind the Scenes?</h2>
+      <div class="faq-grid">
+        <div class="faq-item">
+          <h4>🤖 AI Analysis</h4>
+          <p>We use OpenCV computer vision algorithms to detect image tilt, lighting conditions, face position, and overall composition.</p>
+        </div>
+        <div class="faq-item">
+          <h4>📊 Composition Scoring</h4>
+          <p>Our system evaluates your image against the rule of thirds and golden ratio principles to provide objective quality scores.</p>
+        </div>
+        <div class="faq-item">
+          <h4>🎬 Scene Detection</h4>
+          <p>The AI identifies whether your photo is a portrait, landscape, or product shot and provides tailored suggestions for each.</p>
+        </div>
+        <div class="faq-item">
+          <h4>💡 Real-Time Feedback</h4>
+          <p>All analysis happens instantly on our servers. Your photos are processed and deleted immediately—never stored or shared.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- LIVE CAMERA SECTION (STUB) -->
+  <section class="live-camera-info">
+    <div class="container">
+      <h2>Try Live Camera Mode (Coming Soon)</h2>
+      <p>Get real-time AR guidance right in your camera view. See the rule of thirds overlay and suggested framing before you even take the shot!</p>
+      <button id="liveCameraBtnNav" class="btn btn-primary">📹 Open Live Camera</button>
+      <p class="beta-badge">Beta feature</p>
+    </div>
+  </section>
+
+  <!-- LIVE CAMERA PAGE (HIDDEN) -->
+  <section id="liveCameraSection" style="display:none;">
+    <div class="container">
+      <button id="backToUploadBtn" class="btn btn-secondary">← Back to Upload</button>
+      <h2>Live Camera Mode (AR Guidance)</h2>
+      <div class="camera-container">
+        <video id="cameraVideo" autoplay playsinline></video>
+        <canvas id="cameraCanvas"></canvas>
+        <div class="camera-overlays">
+          <div class="rule-of-thirds"></div>
+          <div class="center-dot"></div>
+          <div class="info-panel">
+            <p>Position your subject at the intersections for best composition.</p>
+            <p id="calibrationText">Calibrating...</p>
+          </div>
+        </div>
+      </div>
+      <div class="camera-actions">
+        <button id="captureBtn" class="btn btn-primary">📸 Capture Photo</button>
+        <button id="toggleFlashBtn" class="btn btn-secondary">💡 Flash Off</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="container">
+      <p>&copy; 2025 Smart Photo Angle Advisor. Powered by AI Computer Vision.</p>
+    </div>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
